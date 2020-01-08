@@ -1,5 +1,4 @@
 db.sqlite3
-functional_tests.py
 geckodriver.log
 *.pyc
 __pycache_
