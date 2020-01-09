@@ -21,14 +21,14 @@ class NewVisitorTest(unittest.TestCase):
         self.assertIn('To-do', header_text)
 
         # try to add some task
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.browser.find_element_by_id("id_new_item")
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter a to-do item'
         )
 
         # add 'buy peacock feathers'
-        inputbox.send_keys('Buy peacock feathers')
+        inputbox.send_keys("Buy peacock feathers")
 
         # press enter, return list of tasks with '1 - buy peacock feathers'
         inputbox.send_keys(Keys.ENTER)
@@ -36,12 +36,20 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1 - buy peacock feathers' for row in rows),
-            "New to-do item did not appear in table"
-        )
+        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
 
         # add one more item 'use peacock feathers to make a fly'
+        inputbox = self.browser.find_element_by_id("id_new_item")
+        inputbox.send_keys("Use peacock feathers to make a fly")
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
+        self.assertIn('2: Use peacock feathers to make a fly', [row.text for row in rows])
+
+
         self.fail('Finish the test')
 
         # return list with 2 task
