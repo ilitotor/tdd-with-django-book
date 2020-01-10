@@ -38,7 +38,6 @@ class NewVisitorTest(unittest.TestCase):
         # press enter, return list of tasks with '1 - buy peacock feathers'
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
-        self.check_for_row_in_list_table('1: Buy peacock feathers')
 
         # add one more item 'use peacock feathers to make a fly'
         inputbox = self.browser.find_element_by_id("id_new_item")
