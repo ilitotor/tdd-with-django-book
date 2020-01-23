@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 import time
+import os
 
 MAX_WAIT = 10
 
@@ -11,6 +12,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Chrome()
+        stagin_server = os.environ.get('STAGING_SERVER')
+        if stagin_server:
+            self.live_server_url = 'http://'+ stagin_server
 
     def tearDown(self):
         self.browser.quit()
@@ -27,7 +31,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
             except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time > MAX_WAIT:
                     raise e
-                time.sleep(0.5)
+                time.sleep(1)
 
 
     def test_can_start_a_list_for_one_user(self):
